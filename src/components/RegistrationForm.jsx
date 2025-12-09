@@ -19,6 +19,10 @@ export default function RegistrationForm() {
 
   const [errorMsg, setErrorMsg] = useState("");
 
+  const clearError = () => {
+    if (errorMsg) setErrorMsg("");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,13 +41,12 @@ export default function RegistrationForm() {
       country,
       bio,
       dob,
-      fileName: file.name,
-      satisfaction: range
+      fileName: file.name
     };
 
     localStorage.setItem("registrationFormData", JSON.stringify(storedData));
 
-    alert("🎉 Form Submitted & Stored in Local Storage Successfully!");
+    alert("🎉 Form Submitted & Stored Successfully!");
   };
 
   return (
@@ -52,45 +55,58 @@ export default function RegistrationForm() {
 
       <form onSubmit={handleSubmit}>
 
-        <InputField label="Full Name" type="text" value={name} onChange={setName} />
+        <InputField 
+          label="Full Name" 
+          type="text" 
+          value={name} 
+          onChange={(v) => { setName(v); clearError(); }} 
+        />
 
-        <InputField label="Email" type="email" value={email} onChange={setEmail} />
+        <InputField 
+          label="Email" 
+          type="email" 
+          value={email} 
+          onChange={(v) => { setEmail(v); clearError(); }} 
+        />
 
         <RadioGroup
           label="Gender"
           options={["Male", "Female", "Other"]}
           value={gender}
-          onChange={setGender}
+          onChange={(v) => { setGender(v); clearError(); }}
         />
 
         <CheckboxGroup
           label="Hobbies"
           options={["Reading", "Sports", "Music", "Traveling"]}
           value={hobbies}
-          onChange={setHobbies}
+          onChange={(v) => { setHobbies(v); clearError(); }}
         />
 
         <SelectField
           label="Country"
           options={["India", "USA", "UK", "Canada", "Japan"]}
           value={country}
-          onChange={setCountry}
+          onChange={(v) => { setCountry(v); clearError(); }}
         />
 
         <TextAreaField
           label="Bio"
           value={bio}
-          onChange={setBio}
+          onChange={(v) => { setBio(v); clearError(); }}
         />
 
         <InputField
           label="Date of Birth"
           type="date"
           value={dob}
-          onChange={setDob}
+          onChange={(v) => { setDob(v); clearError(); }}
         />
 
-        <FileUpload label="Upload Photo" onChange={setFile} />
+        <FileUpload 
+          label="Upload Photo" 
+          onChange={(file) => { setFile(file); clearError(); }}
+        />
 
         {errorMsg && (
           <p style={{ color: "red", marginTop: "5px", textAlign: "center" }}>
@@ -103,5 +119,3 @@ export default function RegistrationForm() {
     </FormBox>
   );
 }
-
-
